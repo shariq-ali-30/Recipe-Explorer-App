@@ -519,12 +519,14 @@ main {
 
 @media (max-width: 1195px) {
   main {
-    flex-wrap: wrap;
+    flex-direction: column;
   }
 
   .side-bar {
+    width: 100%;
     max-width: 100%;
-    max-height: clamp(250px, 40vh, 340px);
+    max-height: 340px;
+    height: 340px;
   }
 }
 
@@ -545,5 +547,10 @@ main {
 @media (max-width: 400px) {
   * {
     cursor: default !important;
+  }
+
+  .side-bar {
+    height: 280px;
+    max-height: 280px;
   }
 }

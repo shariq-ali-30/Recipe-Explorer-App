@@ -1,25 +1,31 @@
-let recipesContainer = document.querySelector(".recipes-container")
-let searchInput = document.querySelector(".search-input")
-let sidebarEmptyState = document.querySelector(".side-bar .empty-state")
-let detailedRecipeEmptyState = document.querySelector(".detailed-recipe .empty-state")
-let detailedRecipeContainer = document.querySelector(".detailed-recipe-container")
+let recipesContainer = document.querySelector(".recipes-container");
+let searchInput = document.querySelector(".search-input");
+let sidebarEmptyState = document.querySelector(".side-bar .empty-state");
+let detailedRecipeEmptyState = document.querySelector(
+  ".detailed-recipe .empty-state",
+);
+let detailedRecipeContainer = document.querySelector(
+  ".detailed-recipe-container",
+);
 
 async function getRecipes() {
-    let response = await fetch("https://dummyjson.com/recipes")
-    let data = await response.json()
-    return data.recipes
+  let response = await fetch("https://dummyjson.com/recipes");
+  let data = await response.json();
+  return data.recipes;
 }
-getRecipes()
+getRecipes();
 
-let allRecipes = await getRecipes()
+let allRecipes = await getRecipes();
 
 function showRecipes(recipesArr) {
-    recipesContainer.innerHTML = ""
-    recipesArr.forEach(recipe => {
-        let recipeItem = document.createElement("div")
-        recipeItem.classList.add("recipe-item")
-        recipeItem.addEventListener("click", () => {showRecipeDetails(event, recipe.id)})
-        recipeItem.innerHTML = `<div class="recipe-id">${recipe.id}</div>
+  recipesContainer.innerHTML = "";
+  recipesArr.forEach((recipe) => {
+    let recipeItem = document.createElement("div");
+    recipeItem.classList.add("recipe-item");
+    recipeItem.addEventListener("click", () => {
+      showRecipeDetails(event, recipe.id);
+    });
+    recipeItem.innerHTML = `<div class="recipe-id">${recipe.id}</div>
                         <div class="recipe-details">
                             <div class="recipe-image">
                                 <img
@@ -40,28 +46,34 @@ function showRecipes(recipesArr) {
                                     </div>
                                 </div>
                             </div>
-                        </div>`
-        recipesContainer.appendChild(recipeItem)
-    })
+                        </div>`;
+    recipesContainer.appendChild(recipeItem);
+  });
 }
-showRecipes(allRecipes)
+showRecipes(allRecipes);
 
 function showRecipeDetails(event, recipeId) {
-    detailedRecipeEmptyState.style.display = "none"
+  detailedRecipeEmptyState.style.display = "none";
 
-    let currentRecipe = allRecipes.find(recipe => recipe.id == recipeId)
-    let ingredients = currentRecipe.ingredients.map(ingredient => `<li>${ingredient}</li>`).join("")
-    let instructions = currentRecipe.instructions.map((instruction, i) => `<div class="instruction-item">
+  let currentRecipe = allRecipes.find((recipe) => recipe.id == recipeId);
+  let ingredients = currentRecipe.ingredients
+    .map((ingredient) => `<li>${ingredient}</li>`)
+    .join("");
+  let instructions = currentRecipe.instructions
+    .map(
+      (instruction, i) => `<div class="instruction-item">
                                 <span class="number">${i + 1}</span>
                                 <p>${instruction}</p>
-                            </div>`).join("")
+                            </div>`,
+    )
+    .join("");
 
-    recipesContainer.childNodes.forEach(recipe => {
-        recipe.classList.remove("active")
-    })
-    event.currentTarget.classList.add("active")
+  recipesContainer.childNodes.forEach((recipe) => {
+    recipe.classList.remove("active");
+  });
+  event.currentTarget.classList.add("active");
 
-    detailedRecipeContainer.innerHTML = `<p class="recipe-number">Recipe #${currentRecipe.id}</p>
+  detailedRecipeContainer.innerHTML = `<p class="recipe-number">Recipe #${currentRecipe.id}</p>
 
                     <div class="top-content">
 
@@ -171,25 +183,32 @@ function showRecipeDetails(event, recipeId) {
 
                         </div>
 
-                    </div>`
+                    </div>`;
 }
 
 function searchRecipes() {
+  if (!searchInput.value.length) {
+    showRecipes(allRecipes);
+  }
 
-    if (!searchInput.value.length) {
-        showRecipes(allRecipes)
-    }
+  if (!recipesContainer.children.length > 0) {
+    sidebarEmptyState.style.display = "flex";
+  } else {
+    sidebarEmptyState.style.display = "none";
+  }
 
-    if (!recipesContainer.children.length > 0) {
-        sidebarEmptyState.style.display = "flex"
-    } else {
-        sidebarEmptyState.style.display = "none"
-    }
-
-    let filterdRecipes = allRecipes.filter(recipe => recipe.name.toLowerCase().includes(searchInput.value.toLowerCase().trim()) || recipe.cuisine.toLowerCase().includes(searchInput.value.toLowerCase().trim()))
-    showRecipes(filterdRecipes)
+  let filterdRecipes = allRecipes.filter(
+    (recipe) =>
+      recipe.name
+        .toLowerCase()
+        .includes(searchInput.value.toLowerCase().trim()) ||
+      recipe.cuisine
+        .toLowerCase()
+        .includes(searchInput.value.toLowerCase().trim()),
+  );
+  showRecipes(filterdRecipes);
 }
 
 // Event Listners
 
-searchInput.addEventListener("input", searchRecipes)
+searchInput.addEventListener("input", searchRecipes);
