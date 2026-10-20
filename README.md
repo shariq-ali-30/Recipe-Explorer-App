@@ -36,20 +36,6 @@ The purpose of this project was to practice working with APIs, asynchronous Java
 - Clean and modern user interface
 - Dynamic content rendering using JavaScript
 
-## What I Learned
-
-Through this project, I learned:
-
-- How to fetch data from an external API using the Fetch API
-- How to work with asynchronous JavaScript using `async/await`
-- How to handle and display API response data dynamically
-- How to work with arrays and objects in JavaScript
-- How to implement search and filtering functionality
-- How to manipulate the DOM dynamically
-- How to create detailed UI sections from API data
-- How to handle empty and no-results states
-- How to build a responsive API-based web application
-
 ## Author
 
 **Shariq Ali**
